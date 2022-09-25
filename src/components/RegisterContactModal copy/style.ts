@@ -183,10 +183,6 @@ export const SpanContact = styled.span`
   color: #000;
 `;
 
-interface IInputProps {
-  errorMsg: string;
-}
-
 export const Input = styled.input`
   height: 40px;
   font-size: 18px;

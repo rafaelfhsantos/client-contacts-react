@@ -7,17 +7,10 @@ import {
   ModalLock,
   ModalBody,
   SpanTelEmail,
-  DivContatosTitulo,
-  SpanContatos,
-  DivContatos,
-  DivContact,
-  SpanContact,
   Input,
-  ButtonAdd,
   DivSalvarCancelar,
   YesButton,
   NoButton,
-  SpanAddInfo,
   FormModal,
 } from "./style";
 
@@ -32,28 +25,8 @@ type FormValues = {
 };
 
 const RegisterContactModal = () => {
-  const {
-    clients,
-    setClients,
-    contacts,
-    setContacts,
-    displayModal,
-    setDisplayModal,
-    displayContactModal,
-    setDisplayContactModal,
-    currentClient,
-    setCurrentClient,
-    currentContacts,
-    setCurrentContacts,
-    currentContact,
-    setCurrentContact,
-    handleClientClick,
-    handleContactClick,
-    setDisplayRegisterModal,
-    clientRegister,
-    setDisplayRegisterContactModal,
-    contactRegister,
-  } = useClient();
+  const { currentClient, setDisplayRegisterContactModal, contactRegister } =
+    useClient();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -65,10 +38,6 @@ const RegisterContactModal = () => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
-    // defaultValues: isEditting && {
-    //   name: actualEvent.name,
-    //   date: actualEvent.email,
-    // },
   });
 
   const onSubmitFunction: SubmitHandler<FormValues> = (data) => {

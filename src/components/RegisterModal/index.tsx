@@ -7,17 +7,10 @@ import {
   ModalLock,
   ModalBody,
   SpanTelEmail,
-  DivContatosTitulo,
-  SpanContatos,
-  DivContatos,
-  DivContact,
-  SpanContact,
   Input,
-  ButtonAdd,
   DivSalvarCancelar,
   YesButton,
   NoButton,
-  SpanAddInfo,
   FormModal,
   ErrorSpan,
 } from "./style";
@@ -33,26 +26,7 @@ type FormValues = {
 };
 
 const RegisterModal = () => {
-  const {
-    clients,
-    setClients,
-    contacts,
-    setContacts,
-    displayModal,
-    setDisplayModal,
-    displayContactModal,
-    setDisplayContactModal,
-    currentClient,
-    setCurrentClient,
-    currentContacts,
-    setCurrentContacts,
-    currentContact,
-    setCurrentContact,
-    handleClientClick,
-    handleContactClick,
-    setDisplayRegisterModal,
-    clientRegister,
-  } = useClient();
+  const { setDisplayRegisterModal, clientRegister } = useClient();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -64,14 +38,9 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
-    // defaultValues: isEditting && {
-    //   name: actualEvent.name,
-    //   date: actualEvent.email,
-    // },
   });
 
   const onSubmitFunction: SubmitHandler<FormValues> = (data) => {
-    // console.log(data);
     clientRegister(data);
   };
 
@@ -104,27 +73,6 @@ const RegisterModal = () => {
               <b>Telefone: </b>
             </SpanTelEmail>
             <Input placeholder={"Telefone"} {...register("phone")} />
-            {/* <DivContatosTitulo>
-              <SpanContatos>Contatos</SpanContatos>
-              <ButtonAdd>+</ButtonAdd>
-            </DivContatosTitulo>
-            <DivContatos>
-              {currentContacts.length === 0 && (
-                <SpanAddInfo>
-                  Clique em '+' para adicionar um contato
-                </SpanAddInfo>
-              )}
-              {currentContacts.map((contact, i) => {
-                return (
-                  <DivContact
-                    key={i}
-                    onClick={() => handleContactClick(contact)}
-                  >
-                    <SpanContact>{contact.name}</SpanContact>
-                  </DivContact>
-                );
-              })}
-            </DivContatos> */}
             <DivSalvarCancelar>
               <YesButton type={"submit"}>Salvar</YesButton>
               <NoButton onClick={() => setDisplayRegisterModal(false)}>

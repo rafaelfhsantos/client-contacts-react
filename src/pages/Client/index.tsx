@@ -19,6 +19,13 @@ import {
   DivContact,
   SpanContact,
   DivContatosTitulo,
+  ButtonExcluir,
+  YesButton,
+  NoButton,
+  ConfirmRemoveModal,
+  ModalRemoveMaterial,
+  ModalRemoveTitle,
+  ModalRemoveBody,
 } from "./style";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,27 +34,23 @@ import RegisterContactModal from "../../components/RegisterContactModal copy";
 const Client = () => {
   const {
     clients,
-    setClients,
-    contacts,
-    setContacts,
     displayModal,
     setDisplayModal,
     displayContactModal,
     setDisplayContactModal,
     currentClient,
-    setCurrentClient,
     currentContacts,
-    setCurrentContacts,
     currentContact,
-    setCurrentContact,
     handleClientClick,
     handleContactClick,
     displayRegisterModal,
-    setDisplayRegisterModal,
     handleNewClientClick,
     getClients,
     displayRegisterContactModal,
     setDisplayRegisterContactModal,
+    displayConfirmRemoveModal,
+    setDisplayConfirmRemoveModal,
+    removeClient,
   } = useClient();
 
   useEffect(() => {
@@ -96,8 +99,9 @@ const Client = () => {
                   );
                 })}
               </DivContatos>
-              {/* <YesButton>Sim</YesButton>
-              <NoButton onClick={() => setDisplayModal(false)}>Não</NoButton> */}
+              <ButtonExcluir onClick={() => setDisplayConfirmRemoveModal(true)}>
+                Excluir Cliente
+              </ButtonExcluir>
             </ModalBody>
           </ModalMaterial>
         </ConfirmModal>
@@ -126,8 +130,6 @@ const Client = () => {
               <SpanTelEmail>
                 <b>Telefone: </b> {currentContact.phone}
               </SpanTelEmail>
-              {/* <YesButton>Sim</YesButton>
-              <NoButton onClick={() => setDisplayModal(false)}>Não</NoButton> */}
             </ModalBody>
           </ModalMaterial>
         </ConfirmModal>
@@ -147,6 +149,29 @@ const Client = () => {
           );
         })}
       </DivClients>
+
+      {displayConfirmRemoveModal && (
+        <ConfirmRemoveModal
+          onClick={(e) =>
+            e.target === e.currentTarget && setDisplayConfirmRemoveModal(false)
+          }
+        >
+          <ModalRemoveMaterial>
+            <ModalRemoveTitle>
+              <h2>Tem certeza que deseja excluir {currentClient.name}?</h2>
+              <ModalLock onClick={() => setDisplayConfirmRemoveModal(false)}>
+                &times;
+              </ModalLock>
+            </ModalRemoveTitle>
+            <ModalRemoveBody>
+              <YesButton onClick={() => removeClient()}>Sim</YesButton>
+              <NoButton onClick={() => setDisplayConfirmRemoveModal(false)}>
+                Não
+              </NoButton>
+            </ModalRemoveBody>
+          </ModalRemoveMaterial>
+        </ConfirmRemoveModal>
+      )}
       <ToastContainer />
     </Main>
   );

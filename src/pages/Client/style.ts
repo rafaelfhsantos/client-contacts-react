@@ -96,7 +96,7 @@ export const ModalTitle = styled.div`
   padding: 5px 16px;
   text-align: center;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   background-color: darkblue;
   color: white;
@@ -182,4 +182,67 @@ export const DivContatosTitulo = styled.div`
   padding: 5px 15px;
   display: flex;
   justify-content: space-between;
+`;
+
+export const ButtonExcluir = styled.button`
+  margin-top: 30px;
+  width: 150px;
+  height: 30px;
+  align-self: center;
+`;
+
+export const ConfirmRemoveModal = styled.div`
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+`;
+
+export const ModalRemoveMaterial = styled.div`
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding-bottom: 10px;
+  border: none;
+  border-radius: 10px;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+`;
+
+export const ModalRemoveTitle = styled.div`
+  margin-bottom: 10px;
+  padding: 5px 16px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: darkblue;
+  color: white;
+`;
+
+export const ModalRemoveBody = styled.div`
+  display: flex;
+  justify-content: space-around;
+  padding: 2px 16px;
 `;

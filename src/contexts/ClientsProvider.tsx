@@ -65,6 +65,9 @@ interface ClientsProviderData {
     displayRegisterContactModal: boolean
   ) => void;
   contactRegister: (data: IContactRegister, clientId: string) => void;
+  displayConfirmRemoveModal: boolean;
+  setDisplayConfirmRemoveModal: (displayConfirmRemoveModal: boolean) => void;
+  removeClient: () => void;
 }
 
 const ClientsContext = createContext<ClientsProviderData>(
@@ -82,18 +85,14 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
     api
       .get("/clients")
       .then((response) => {
-        // console.log(response.data);
         const newClients = response.data;
         setClients(response.data);
-        console.log(
-          newClients.find((client: IClient) => client.id === currentClient.id)
-        );
+
         const newContacts = newClients.find(
           (client: IClient) => client.id === currentClient.id
         ).contacts;
 
         setCurrentContacts(newContacts);
-        // console.log(clients);
       })
       .catch((response) => console.log(response));
   }
@@ -160,6 +159,22 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
       });
   };
 
+  const removeClient = () => {
+    api
+      .delete(`/clients/${currentClient.id}`)
+      .then((response) => {
+        toast.success("Cliente Removido!");
+        setDisplayConfirmRemoveModal(false);
+        setDisplayModal(false);
+
+        getClients();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Algo errado ocorreu!");
+      });
+  };
+
   const contactRegister = (data: IContactRegister, clientId: string) => {
     api
       .post(`/contacts/${clientId}`, data)
@@ -167,10 +182,6 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
         toast.success("Contato cadastrado!");
         setDisplayRegisterContactModal(false);
         getClients();
-        console.log(response);
-        // console.log(clients.find((client) => client.id === clientId));
-
-        // setCurrentClient(clients.find(client => client.id === clientId))
         setCurrentContacts(currentClient.contacts);
       })
       .catch((err) => {
@@ -216,6 +227,8 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
   const [currentContacts, setCurrentContacts] = useState(contacts);
   const [currentContact, setCurrentContact] = useState(contacts[0]);
   const [displayRegisterModal, setDisplayRegisterModal] = useState(false);
+  const [displayConfirmRemoveModal, setDisplayConfirmRemoveModal] =
+    useState(false);
 
   const [displayRegisterContactModal, setDisplayRegisterContactModal] =
     useState(false);
@@ -229,13 +242,6 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
     setCurrentClient(client);
     console.log(client.contacts);
     setCurrentContacts(client.contacts);
-
-    // setCurrentContacts(
-    //   client.contacts
-    // );
-    // setCurrentContacts(
-    //   contacts.filter((contact) => contact.client_id === client.id)
-    // );
     setDisplayModal(true);
   }
 
@@ -271,6 +277,9 @@ const ClientsProvider = ({ children }: ClientsProviderProps) => {
         displayRegisterContactModal,
         setDisplayRegisterContactModal,
         contactRegister,
+        displayConfirmRemoveModal,
+        setDisplayConfirmRemoveModal,
+        removeClient,
       }}
     >
       {children}
